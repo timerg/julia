@@ -1,8 +1,6 @@
 using Gadfly
 using RDatasets
 using Cairo
-# using PyCall
-# pygui(:gtk)
 # using Fontconfig
 
 ra = readcsv("I_rds2_7050_075.csv")
@@ -40,6 +38,6 @@ p2_8  = plot(rds2_8, x="Id", y="rds", color="name", Geom.point, Scale.x_log10, S
 p_all = plot([rds2_7; rds2_8], x="Id", y="rds", color="name", Geom.point, Scale.x_log10, Scale.y_log10,
     Theme(default_point_size = 2px))
 
-draw(PNG("rds_I.png", 12cm, 6cm), p_all)  # generate PNG
-p_all
+draw(PNG("rds_I.png", 12cm, 6cm), p_all)
+
 # http://samuelcolvin.github.io/JuliaByExample/#Packages-and-Including-of-Files
