@@ -37,7 +37,7 @@ fname = "rdsVScurrent.txt"
 file =  open(readdlm, fname)
 fname2 = "rdsVScurrent_nmos.txt"
 file2 =  open(readdlm, fname2)
-x = 43:87
+x = 3:133
 rdsPmos = DataFrame(Vgs = file[x, 1], rds = file[x, 2], Id = file[x, 3], name = "Pmos 20u/.4u m=3 vds=1.3", gm = file[x, 4])
 x = 2:402
 rdsNmos = DataFrame(Id = file2[x, 1], gm = file2[x, 2], rds = file2[x, 3], gmxrdsn = file2[x, 4], name = "Nmos 3u/.4u m=1 CommonGate")
@@ -51,11 +51,11 @@ p2_8  = plot(rds2_8, x="Id", y="rds", color="name", Geom.point, Scale.x_log10, S
 p_NW = plot([rds2_7; rds2_8], x="Id", y="rds", color="name", Geom.point, Scale.x_log10, Scale.y_log10,
     Theme(default_point_size = 2px))
 p_all = plot(layer([rds2_7; rds2_8], x="Id", y="rds", color="name", Geom.point),
-                layer(rdsPmos, x="Id", y="rds", color="name", Geom.line),
-                layer(rdsNmos, x="Id", y="gmxrdsn", color="name", Geom.line),
+                layer(rdsPmos[(rdsPmos[:Id].>1e-8)&(rdsPmos[:Id].<1e-4),:], x="Id", y="rds", color="name", Geom.line),
+                layer(rdsNmos[(rdsNmos[:Id].>1e-8)&(rdsNmos[:Id].<1e-4),:], x="Id", y="gmxrdsn", color="name", Geom.line),
                  Scale.y_log10, Scale.x_log10,
                 Theme(default_point_size = 1.5px))
 
-draw(PNG("rds_I.png", 12cm, 6cm), p_all)
+# draw(PNG("rds_I.png", 12cm, 6cm), p_all)
 
 # http://samuelcolvin.github.io/JuliaByExample/#Packages-and-Including-of-Files
