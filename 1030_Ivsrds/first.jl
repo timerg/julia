@@ -50,12 +50,13 @@ p2_8  = plot(rds2_8, x="Id", y="rds", color="name", Geom.point, Scale.x_log10, S
     Theme(default_point_size = 2px))
 p_NW = plot([rds2_7; rds2_8], x="Id", y="rds", color="name", Geom.point, Scale.x_log10, Scale.y_log10,
     Theme(default_point_size = 2px))
+ticks = [0:10]
 p_all = plot(layer([rds2_7; rds2_8], x="Id", y="rds", color="name", Geom.point),
                 layer(rdsPmos[(rdsPmos[:Id].>1e-8)&(rdsPmos[:Id].<1e-4),:], x="Id", y="rds", color="name", Geom.line),
                 layer(rdsNmos[(rdsNmos[:Id].>1e-8)&(rdsNmos[:Id].<1e-4),:], x="Id", y="gmxrdsn", color="name", Geom.line),
-                 Scale.y_log10, Scale.x_log10,
-                Theme(default_point_size = 1.5px))
+                 Scale.y_log10, Scale.x_log10, Guide.yticks(ticks=ticks),
+                Theme(default_point_size = 1.5px, background_color=colorant"white"))
 
-# draw(PNG("rds_I.png", 12cm, 6cm), p_all)
+# draw(PNG("rds_I.png", 30cm, 20cm), p_all)
 
 # http://samuelcolvin.github.io/JuliaByExample/#Packages-and-Including-of-Files
