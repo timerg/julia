@@ -37,5 +37,5 @@ pcvmb = plot(layer(x=dcvmb[:Vg], y=(dcvmb[:Vc]/110000 + dcvmb[:Im_0_112_]/4)
                  )
     )
 
-draw(PNG("0828_CVM_Meas.png", 15cm, 16cm), pcvma)
-draw(PNG("0828_CVM_Meas2.png", 15cm, 16cm), pcvmb)
+draw(PNG("Fig/0828_CVM_Meas.png", 15cm, 16cm), pcvma)
+draw(PNG("Fig/0828_CVM_Meas2.png", 15cm, 16cm), pcvmb)

@@ -117,17 +117,17 @@ pnoNwd_IVimp = plot(x=abs(dnoNwd[:Im]), y=(dnoNwd[:Vcross] + dnoNwd[:Vnwd]), Geo
 
 
 
-draw(PNG("fit_a02_log.png", 24cm, 16cm), pa02_log)
-draw(PNG("fit_a03_log.png", 24cm, 16cm), pa03_log)
-draw(PNG("fit_a03.png", 24cm, 16cm), pa03)
+draw(PNG("Fig/fit_a02_log.png", 24cm, 16cm), pa02_log)
+draw(PNG("Fig/fit_a03_log.png", 24cm, 16cm), pa03_log)
+draw(PNG("Fig/fit_a03.png", 24cm, 16cm), pa03)
 
 # Wrong measurement(cause by source meter and resistance related feedback failure)
 # draw(PNG("Im_Ip.png", 24cm, 16cm), pIm_Ip)
 # draw(PNG("Inw_Iimp.png", 24cm, 16cm), pInw_Iimp)
 # draw(PNG("Vnwd_Compare.png", 24cm, 16cm), pnwd)
 
-draw(PNG("MirrorRatio_useRv.png", 18cm, 12cm), pnoNwd_ratio)
-draw(PNG("vnwd_useRv.png", 18cm, 5cm), pnoNwd_vnwd)
+draw(PNG("Fig/MirrorRatio_useRv.png", 18cm, 12cm), pnoNwd_ratio)
+draw(PNG("Fig/vnwd_useRv.png", 18cm, 5cm), pnoNwd_vnwd)
 
 
 # Use Plots

@@ -72,7 +72,7 @@ pgvt = plot(layer(dnw, x="Vg_1_1_", y="Id_mean", ymin="Id_min", ymax="Id_max"
                  )
     )
 
-draw(PNG("GVT_0906.png", 30cm, 20cm), pgvt)
+draw(PNG("Fig/GVT_0906.png", 30cm, 20cm), pgvt)
 
 ## 0907
 
@@ -144,6 +144,6 @@ pgvt_0907_11min = plot(layer(dnw, x="Vg", y="Id_mean", ymin="Id_min", ymax="Id_m
                  )
     )
 
-draw(PNG("nw2-8_0907.png", 18cm, 12cm), pnw)
-draw(PNG("GVT_0907_6min.png", 30cm, 20cm), pgvt_0907_6min)
-draw(PNG("GVT_0907_11min.png", 30cm, 20cm), pgvt_0907_11min)
+draw(PNG("Fig/nw2-8_0907.png", 18cm, 12cm), pnw)
+draw(PNG("Fig/GVT_0907_6min.png", 30cm, 20cm), pgvt_0907_6min)
+draw(PNG("Fig/GVT_0907_11min.png", 30cm, 20cm), pgvt_0907_11min)
