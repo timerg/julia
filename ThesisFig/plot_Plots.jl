@@ -53,7 +53,7 @@ dIdgbs_150v[:line] = "Vds=1.5v"
 dIdgbs_150v[:diffId] = diff(dIdgbs_150v[:Vsurface_3_2_], dIdgbs_150v[:Id2_8_2_2_])
 
 pyplot()
-PyPlot.svg(true)
+# PyPlot.svg(true)
 
 plot()
 
@@ -109,8 +109,25 @@ pIdVg = plot([  dIdgbs_005v[:Vsurface_3_2_]]
                 , legend = false
             )
 
+pgbsVg = plot([  dIdgbs_005v[:Vsurface_3_2_]]
+                , [ dIdgbs_005v[:diffId]]
+                , yscale = :log10
+                , xlabel = "Vg(V)"
+                , ylabel = "Derivative(Id)"
+                # , yticks = [-9:-5]
+                , xticks = [0 : 3]
+                , yticks = [-7 : -5]
+                , xlims = (-0.3, 3.3)
+                , ylims = ((10.0^-7.5), (10.0^-4))
+                , linestyle = :solid
+                , linecolor = :deepskyblue
+                , linewidth = 3
+                , legend = false
+            )
+
 savefig(pIdgbs, "pIdgbs.svg")
 savefig(pIdVg, "pIdVg.svg")
+savefig(pgbsVg, "pgbsVg.svg")
 
 
 

@@ -19,3 +19,5 @@ This use the non-accurate current mirror. The match btw Im and weighted Id(times
 
 ### nwd1: accurate current mirror
 <img src="./Fig/GVT_nwd1_acc.png"></img>
+
+
