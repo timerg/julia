@@ -1,4 +1,4 @@
-# This file is just for test. The output for thesis use "plot_Plots.jl" instead 
+# This file is just for test. The output for thesis use "plot_Plots.jl" instead
 
 using Gadfly
 using DataFrames
@@ -92,19 +92,11 @@ dIdgbs_125v[:line] = "Vds=1.25v"
 dIdgbs_150v = readtable("./data/1030/IdVsurface_1030_2-7&2-8_PBS_Vds=1.5v.txt", separator='\t', header=true)
 dIdgbs_150v[:line] = "Vds=1.5v"
 
-pIdgbs_Vd = plot(layer(dIdgbs_005v, x="Id2_8_2_2_", y=diff(dIdgbs_005v[:Vsurface_3_2_], dIdgbs_005v[:Id2_8_2_2_]), color="line", Geom.line, Geom.point)
-        , layer(dIdgbs_075v, x="Id2_8_2_2_", y=diff(dIdgbs_075v[:Vsurface_3_2_], dIdgbs_075v[:Id2_8_2_2_]), color="line", Geom.line, Geom.point)
-        , layer(dIdgbs_125v, x="Id2_8_2_2_", y=diff(dIdgbs_125v[:Vsurface_3_2_], dIdgbs_125v[:Id2_8_2_2_]), color="line", Geom.line, Geom.point)
-        , layer(dIdgbs_150v, x="Id2_8_2_2_", y=diff(dIdgbs_150v[:Vsurface_3_2_], dIdgbs_150v[:Id2_8_2_2_]), color="line", Geom.line, Geom.point)
-        # , Guide.xticks(ticks=[10.0^(-6), 2e-6], label=false)
-        # , Guide.xticks(ticks=[10.0^(-6), 2e-7], label=true)
-        , Scale.x_log10
-        , Scale.y_log10
-        , Guide.ylabel("Derivative(Id)"), Guide.xlabel("Id(A)")
-        , Theme(background_color=colorant"white", key_title_font_size=18pt, key_label_font_size=18pt
-            , major_label_font_size=18pt, minor_label_font_size=18pt
-            )
-        )
+dDisparity = DataFrame(NwA_Id = dIdgbs_075v[:Id2_8_2_2_], NwB_Id = dIdgbs_075v[:Id2_7_4_2_]
+                    , NwA_diff = diff(dIdgbs_075v[:Vsurface_3_2_], dIdgbs_075v[:Id2_8_2_2_])
+                    , NwB_diff = diff(dIdgbs_075v[:Vsurface_3_2_], dIdgbs_075v[:Id2_7_4_2_])
+                    )
+pDisparity = plot(layer(dDisparity, x="NwA_Id", y="NwA_diff", Geom.line))
 
 
 

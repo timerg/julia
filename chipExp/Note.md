@@ -20,4 +20,8 @@ This use the non-accurate current mirror. The match btw Im and weighted Id(times
 ### nwd1: accurate current mirror
 <img src="./Fig/GVT_nwd1_acc.png"></img>
 
+## 9/20
+* Start to use 2-7
+* Start to use chip5
+
 
