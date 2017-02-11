@@ -58,11 +58,11 @@ dDisparity = DataFrame(NwA_Id = dIdgbs_075v[:Id2_8_2_2_], NwB_Id = dIdgbs_075v[:
                     )
 
 # pyplot()
-plotlyjs()
-# gr()
+# plotlyjs()
+gr()
 # PyPlot.svg(true)
 
-plot()
+# plot()
 
 # Id-gbs for various Vd
 pIdgbs_Vd = plot([  dIdgbs_005v[:Id2_8_2_2_] dIdgbs_075v[:Id2_8_2_2_] dIdgbs_125v[:Id2_8_2_2_] dIdgbs_150v[:Id2_8_2_2_]
@@ -72,7 +72,7 @@ pIdgbs_Vd = plot([  dIdgbs_005v[:Id2_8_2_2_] dIdgbs_075v[:Id2_8_2_2_] dIdgbs_125
                 , xscale = :log10
                 , yscale = :log10
                 , xlabel = "Id(A)"
-                , ylabel = "Derivative(Id)"
+                , ylabel = "gm"
                 # , ticks = [-6:-5]
                 , xlims = ((10.0^-7.5), (10.0^-3))
                 , ylims = ((10.0^-6.8), (10.0^-4))
@@ -80,34 +80,35 @@ pIdgbs_Vd = plot([  dIdgbs_005v[:Id2_8_2_2_] dIdgbs_075v[:Id2_8_2_2_] dIdgbs_125
                 , linecolor = colorkey
                 , linewidth = 1
                 , label = ["Vds=0.5v" "Vds=0.75v" "Vds=1.25v" "Vds=1.5v"]
-                , marker = ([:hex :d], 5, colorkey)
+                , marker = ([:diamond :cross :star6 :circle], 8, colorkey)
                 , markersize = 20
                 , markerstrokewidth = 0
-                , leg = :left
-                , size = (800, 400)
-                , fmt = :png
+                , leg = :bottom
+                , size = (600, 300)
+                , fmt = :svg
             )
-# savefig(pIdgbs_Vd, "pIdgbs_Vd.svg")
+savefig(pIdgbs_Vd, "pIdgbs_Vd.svg")
 # savefig(pIdgbs_Vd,  "pIdgbs_Vd.png")
 
 
 # Id-Vg and gbs_Ib
-# pIdgbs = plot([  dIdgbs_005v[:Id2_8_2_2_]]
-#                 , [ dIdgbs_005v[:diffId]]
-#                 , xscale = :log10
-#                 , yscale = :log10
-#                 , xlabel = "Id(A)"
-#                 , ylabel = "Derivative(Id)"
-#                 , xticks = [-7:-5]
-#                 , yticks = [-6:-5]
-#                 , ylims = ((10.0^-6.8), (10.0^-4.5))
-#                 , legend = false
-#                 , linestyle = :solid
-#                 , linecolor = :deepskyblue
-#                 , linewidth = 3
-#             )
+pIdgbs = plot([  dIdgbs_005v[:Id2_8_2_2_]]
+                , [ dIdgbs_005v[:diffId]]
+                , xscale = :log10
+                , yscale = :log10
+                , xlabel = "Id(A)"
+                , ylabel = "gm"
+                , xticks = [-7:-5]
+                , yticks = [-6:-5]
+                , ylims = ((10.0^-6.8), (10.0^-4.5))
+                , legend = false
+                , linestyle = :solid
+                , linecolor = :green
+                , size = (600, 300)
+                , linewidth = 2
+            )
 
-#
+
 pIdVg = plot([  dIdgbs_005v[:Vsurface_3_2_]]
                 , [ dIdgbs_005v[:Id2_8_2_2_]]
                 , yscale = :log10
@@ -119,53 +120,57 @@ pIdVg = plot([  dIdgbs_005v[:Vsurface_3_2_]]
                 , xlims = (-0.3, 3.3)
                 , ylims = ((10.0^-7.5), (10.0^-4))
                 , linestyle = :solid
-                , linecolor = :deepskyblue
+                , linecolor = :green
                 , linewidth = 3
+                , size = (600, 300)
                 , legend = false
+                , fmt = :svg
             )
 #
 pgbsVg = plot([  dIdgbs_005v[:Vsurface_3_2_]]
                 , [ dIdgbs_005v[:diffId]]
                 , yscale = :log10
                 , xlabel = "Vg(V)"
-                , ylabel = "Derivative(Id)"
+                , ylabel = "gm"
                 # , yticks = [-9:-5]
                 , xticks = [0 : 3]
                 , yticks = [-7 : -5]
                 , xlims = (-0.3, 3.3)
                 , ylims = ((10.0^-7.5), (10.0^-4))
                 , linestyle = :solid
-                , linecolor = :deepskyblue
-                , linewidth = 3
+                , linecolor = :green
+                , linewidth = 2
+                , size = (600, 300)
                 , legend = false
             )
 #
-# savefig(pIdgbs, "pIdgbs.svg")
-# savefig(pIdVg, "pIdVg.svg")
+savefig(pIdgbs, "pIdgbs.svg")
+savefig(pIdVg, "pIdVg.svg")
 # savefig(pgbsVg, "pgbsVg.svg")
 #
 ############################################################
 
 # gbs_Ib For element disparity
-pDisparity = plot([dDisparity[:NwA_Id] dDisparity[:NwB_Id]
+pDisparity = plot([dDisparity[:NwA_Id][2:21] dDisparity[:NwB_Id][2:21]
                  ]
-                , [dDisparity[:NwA_diff] dDisparity[:NwB_diff]
+                , [dDisparity[:NwA_diff][2:21] dDisparity[:NwB_diff][2:21]
                   ]
                 , xscale = :log10
                 , yscale = :log10
                 , xlabel = "Id(A)"
-                , ylabel = "Derivative(Id)"
+                , ylabel = "gm"
                 # , ticks = [-6:-5]
                 , xlims = ((10.0^-7.5), (10.0^-3.5))
                 , ylims = ((10.0^-6.8), (10.0^-4))
                 , linestyle = :solid
                 , linecolor = colorkey
-                , linewidth = 1
+                , linewidth = 2
                 , label = ["Nw.2-7" "Nw.2-8"]
-                , marker = ([:hex :d], 5, colorkey)
-                , markersize = 20
+                , marker = ([:hex :d], 10, colorkey)
+                # , markersize = 100
                 , markerstrokewidth = 0
                 , legend = :bottom
-                , size = (800, 400)
+                , size = (600, 300)
+                , fmt = :svg
             )
-# savefig(pDisparity, "pDisparity.svg")
+savefig(pDisparity, "pDisparity.svg")

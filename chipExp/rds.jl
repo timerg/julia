@@ -71,8 +71,8 @@ dnw = readtable("./data/1005/nw2-5_vdId.txt", header=true, separator='\t')
 dnw[:rds_2_1_] = 1 ./ diff(dnw[:Vd_2_1_], dnw[:Id_2_1_])
 dnw[:rds_2_2_] = 1 ./ diff(dnw[:Vd_2_2_], dnw[:Id_2_2_])
 
-plot = Gadfly.plot(layer(dnw, x = "Id_2_1_", y = "rds_2_1_", Geom.line, Geom.point)
-                 , layer(dnw, x = "Id_2_2_", y = "rds_2_2_", Geom.line, Geom.point)
+plot = Gadfly.plot(layer(dnw, x = "Id_2_1_", y = "rds_2_1_", Geom.line)
+                 , layer(dnw, x = "Id_2_2_", y = "rds_2_2_", Geom.line)
                  , Scale.x_log10
                  , Scale.y_log10
                  , Theme(background_color=colorant"white", key_title_font_size=18pt, key_label_font_size=18pt
