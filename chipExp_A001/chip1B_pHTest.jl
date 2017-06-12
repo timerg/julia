@@ -58,6 +58,16 @@ function mean_onRow(d :: DataFrame, as :: Array = [])
     return mean
 end
 
+function notInclude(x, a)
+    l = length(a)
+    for i = 1 : l
+        if x == a[i]
+            return false
+        end
+    end
+    return true
+end
+
 
 
 ## 1226
@@ -69,60 +79,61 @@ dnw_phB = readtable("./data/1226/nw1-8_t2.txt", separator='\t', header=true)
 dnw_phB[:Is_3_1_] = dnw_phB[:Is_3_1_] * (-1)
 dnw_phB[:gm] = diff(dnw_phB[:Vg_1_1_], dnw_phB[:Is_3_1_])
 
-p_IdVg = plot( layer(dnw_phA[2:20, :], y=:Is_3_1_, x=:Vg_1_1_, Geom.line, Theme(default_color=colorant"green", line_width=1pt))
-                , layer(dnw_phB[2:21, :], y=:Is_3_1_, x=:Vg_1_1_, Geom.line, Theme(line_width=1pt))
+p_IdVg = plot( layer(dnw_phA[6:20, :], y=:Is_3_1_, x=:Vg_1_1_, Geom.line, Theme(default_color=colorant"black", line_width=3pt))
+                , layer(dnw_phB[6:21, :], y=:Is_3_1_, x=:Vg_1_1_, Geom.line, Theme(default_color=colorant"darkgray", line_width=3pt))
                 , Scale.y_log10
                 # , Guide.xticks(ticks=[-8:1:-4, -6.26])
                 # , Guide.yticks(ticks=[-8:1:-4, -5.7])
                 , Guide.xlabel("VG(V)")
                 , Guide.ylabel("ID(A)")
-                , Guide.title("nwB1-8, chip1B, IdVg sweep")
-                , Guide.manual_color_key("Line", ["pHA", "pHB"], ["green", "deepskyblue"])
-                , Theme(background_color=colorant"white", key_title_font_size=18pt, key_label_font_size=18pt
-                    , major_label_font_size=18pt, minor_label_font_size=18pt, line_width=2pt)
+                # , Guide.title("nwB1-8, chip1B, IdVg sweep")
+                , Guide.manual_color_key("", ["pH6", "pH7"], ["black", "darkgray"])
+                , Theme(background_color=colorant"white", key_title_font_size=30pt, key_label_font_size=30pt, grid_line_width=3pt
+                    , major_label_font_size=30pt, minor_label_font_size=30pt, line_width=2pt)
                 )
 
-p_Idgm = plot( layer(dnw_phA[2:20, :], x=:Is_3_1_, y=:gm, Geom.line, Theme(default_color=colorant"green", line_width=2pt))
-                , layer(dnw_phB[2:21, :], x=:Is_3_1_, y=:gm, Geom.line, Theme(line_width=2pt))
+p_Idgm = plot( layer(dnw_phA[6:19, :], x=:Is_3_1_, y=:gm, Geom.line, Theme(default_color=colorant"black", line_width=3pt))
+                , layer(dnw_phB[6:17, :], x=:Is_3_1_, y=:gm, Geom.line, Theme(default_color=colorant"darkgray", line_width=3pt))
+
                 , Scale.y_log10
                 , Scale.x_log10
                 # , Guide.xticks(ticks=[-8:1:-4, -6.26])
                 # , Guide.yticks(ticks=[-8:1:-4, -5.7])
                 , Guide.xlabel("ID(A)")
                 , Guide.ylabel("gm")
-                , Guide.title("nwB1-8, chip1B, gmId plot of pHTest \n gm is almost same in two differenet pH buffer")
-                , Guide.manual_color_key("", ["pHA", "pHB"], ["green", "deepskyblue"])
-                , Theme(background_color=colorant"white", key_title_font_size=18pt, key_label_font_size=18pt
-                    , major_label_font_size=18pt, minor_label_font_size=18pt, line_width=2pt)
+                # , Guide.title("nwB1-8, chip1B, gmId plot of pHTest \n gm is almost same in two differenet pH buffer")
+                , Guide.manual_color_key("", ["pH6", "pH7"], ["black", "darkgray"])
+                , Theme(background_color=colorant"white", key_title_font_size=30pt, key_label_font_size=30pt, grid_line_width=3pt
+                    , major_label_font_size=30pt, minor_label_font_size=30pt)
                 )
 
 
-p_Idgm = plot( layer(dnw_phA[2:20, :], x=:Is_3_1_, y=:gm, Geom.line, Theme(default_color=colorant"deepskyblue", line_width=2pt))
-                , Scale.y_log10
-                , Scale.x_log10
-                , Guide.xticks(ticks=[-8:1:-4; -6.26])
-                , Guide.yticks(ticks=[-8:1:-4; -5.7])
-                , Guide.xlabel("ID(A)")
-                , Guide.ylabel("gm")
-                , Guide.title("nwB1-8, chip1B, gmId plot of pHTest \n The gm = 2u when Id ≈ 550n")
-                , Guide.manual_color_key("", ["pHA", "pHB"], ["green", "deepskyblue"])
-                , Theme(background_color=colorant"white", key_title_font_size=18pt, key_label_font_size=18pt
-                    , major_label_font_size=18pt, minor_label_font_size=18pt, line_width=2pt)
-                )
+# p_Idgm = plot( layer(dnw_phA[2:20, :], x=:Is_3_1_, y=:gm, Geom.line, Theme(default_color=colorant"deepskyblue", line_width=2pt))
+#                 , Scale.y_log10
+#                 , Scale.x_log10
+#                 , Guide.xticks(ticks=[-8:1:-4; -6.26])
+#                 , Guide.yticks(ticks=[-8:1:-4; -5.7])
+#                 , Guide.xlabel("ID(A)")
+#                 , Guide.ylabel("gm")
+#                 , Guide.title("nwB1-8, chip1B, gmId plot of pHTest \n The gm = 2u when Id ≈ 550n")
+#                 , Guide.manual_color_key("", ["pHA", "pHB"], ["green", "deepskyblue"])
+#                 , Theme(background_color=colorant"white", key_title_font_size=18pt, key_label_font_size=18pt
+#                     , major_label_font_size=18pt, minor_label_font_size=18pt, line_width=2pt)
+#                 )
 
 vDeltapH = (dnw_phB[:Is_3_1_] - dnw_phA[:Is_3_1_]) ./ dnw_phA[:gm]
 
-p_DeltaV = plot(x=dnw_phA[:Vg_1_1_], y=vDeltapH, Geom.line
-                , Guide.xlabel("VG(V)")
-                , Guide.ylabel("△V")
-                , Theme(background_color=colorant"white", key_title_font_size=18pt, key_label_font_size=18pt
-                    , major_label_font_size=18pt, minor_label_font_size=18pt, line_width=2pt))
+# p_DeltaV = plot(x=dnw_phA[:Vg_1_1_], y=vDeltapH, Geom.line
+#                 , Guide.xlabel("VG(V)")
+#                 , Guide.ylabel("△V")
+#                 , Theme(background_color=colorant"white", key_title_font_size=18pt, key_label_font_size=18pt
+#                     , major_label_font_size=18pt, minor_label_font_size=18pt, line_width=2pt))
 
 
-draw(PNG("Fig/pHTest/nwB1-8_ph4and7_IdVg.png", 24cm, 15cm), p_IdVg)
-draw(PNG("Fig/pHTest/nwB1-8_ph4and7_Idgm.png", 24cm, 15cm), p_Idgm)
-draw(PNG("Fig/pHTest/nwB1-8_FindIDgm_Idgm.png", 24cm, 15cm), p_Idgm)
-draw(PNG("Fig/pHTest/pH_DeltaV_nwB1-8.png", 24cm, 15cm), p_DeltaV)
+draw(PNG("Fig/pHTest/nwB1-8_ph4and7_IdVg.png", 24cm, 20cm), p_IdVg)
+draw(PNG("Fig/pHTest/nwB1-8_ph4and7_Idgm.png", 24cm, 20cm), p_Idgm)
+# draw(PNG("Fig/pHTest/nwB1-8_FindIDgm_Idgm.png", 24cm, 15cm), p_Idgm)
+# draw(PNG("Fig/pHTest/pH_DeltaV_nwB1-8.png", 24cm, 15cm), p_DeltaV)
 
 
 # Ibias = 550nA gm=2u DeltaV = 0.2
@@ -437,13 +448,9 @@ p_IdVg3 = plot( layer(dnwA1_2A[4:20, :], y=:Is_3_1_, x=:Vg_1_1_, Geom.line, Them
                     , major_label_font_size=18pt, minor_label_font_size=18pt, line_width=2pt)
                 )
 
-vDeltapH3 = (dnwA1_2B[:Is_3_1_] - dnwA1_2A[:Is_3_1_]) ./ dnwA1_2B[:gm]
+vDeltapH1_2 = (dnwA1_2B[:Is_3_1_] - dnwA1_2A[:Is_3_1_]) ./ dnwA1_2B[:gm]
 
-p_DeltaV3 = plot(x=dnwA1_2B[:Vg_1_1_], y=vDeltapH3, Geom.line
-                , Guide.xlabel("VG(V)")
-                , Guide.ylabel("△V")
-                , Theme(background_color=colorant"white", key_title_font_size=18pt, key_label_font_size=18pt
-                    , major_label_font_size=18pt, minor_label_font_size=18pt, line_width=2pt))
+
 
 
 dWave_nwA_2 = readtable("./data/1228/scope_3.txt", separator='\t', header=true)
@@ -460,15 +467,166 @@ p_wave_nwA_2 = plot(layer(dWave_nwA_2, x=:x_axis, y=:x1, Geom.line)
 draw(PNG("Fig/pHTest/pHTest_IdVg_nwA1-2.png", 24cm, 15cm), p_IdVg3)
 draw(PNG("Fig/pHTest/pHTest_Idgm_nwA1-2.png", 24cm, 15cm), p_Idgm3)
 draw(PNG("Fig/pHTest/pHTest_wave_nwA1-2.png", 24cm, 15cm), p_wave_nwA_2)
-draw(PNG("Fig/pHTest/pH_DeltaV_nwA1-2.png", 24cm, 15cm), p_DeltaV3)
+# draw(PNG("Fig/pHTest/pH_DeltaV_nwA1-2.png", 24cm, 15cm), p_DeltaV3)
+
+function handleTicks(x, i...)
+    if notInclude(x, i)
+        @sprintf("1e%i", x)
+    else
+        @sprintf("%.1e", 10.0^x)
+    end
+end
+
+d_DVar_IdVg = plot(layer(dnwA1_2A[8:19, :], x=:Vg_1_1_, y=:Is_3_1_, Geom.line, Theme(default_color=colorant"black", line_width=5pt))
+                , layer(dnwA[11:20, :], x=:Vg_1_1_, y=:Is_3_1_, Geom.line, Theme(default_color=colorant"darkgray", line_width=5pt))
+                , Coord.cartesian(xmin=1.3)
+                , Guide.xticks(ticks=[1.3:0.3:2.9])
+                , Scale.y_log10
+                , Guide.xlabel("VG(V)")
+                , Guide.ylabel("ID(A)")
+                , Theme(key_title_font_size=30pt, key_label_font_size=30pt, grid_line_width=3pt
+                    , major_label_font_size=30pt, minor_label_font_size=30pt, line_width=5pt)
+                )
+d_DVar_gmId = plot(layer(dnwA1_2A[8:19, :], x=:Is_3_1_, y=:gm, Geom.line, Theme(default_color=colorant"black", line_width=5pt))
+                , layer(dnwA[11:20, :], x=:Is_3_1_, y=:gm, Geom.line, Theme(default_color=colorant"darkgray", line_width=5pt))
+                , Coord.cartesian(xmax=-5.5)
+                , Guide.yticks(ticks=[-7:1:-4, log10(2e-6)])
+                , Guide.xticks(ticks=[-7, log10(5e-6), log10(3.4e-7), log10(9e-7)])
+                , Scale.y_log10(labels=x -> handleTicks(x, log10(2e-6)))
+                , Scale.x_log10(labels=x -> handleTicks(x, log10(5e-6), log10(3.4e-7), log10(9e-7)))
+                , Guide.xlabel("ID(A)")
+                , Guide.ylabel("gm")
+                , Guide.manual_color_key("", ["nw1-2", "nw2-1"], [colorant"black", colorant"darkgray"])
+                , Theme(key_title_font_size=30pt, key_label_font_size=30pt, grid_line_width=3pt
+                    , major_label_font_size=30pt, minor_label_font_size=30pt, line_width=5pt)
+                )
+
+d_DVar_scope = vcat(DataFrame(VTIA = dWave_nwA[:x2][200:1000], Vout = dWave_nwA[:x1][200:1000], time = dWave_nwA[:x_axis][200:1000], Device="nw2-1"), DataFrame(VTIA = (dWave_nwA_2[:x1] + 0.037), Vout = (dWave_nwA_2[:x2] + 0.2), time = dWave_nwA[:x_axis], Device="nw1-2"))
+
+p_DVar_scope = plot(d_DVar_scope, xgroup="Device", x="time", y="Vout"
+                    , Geom.subplot_grid(Geom.line
+                                        , free_x_axis=true
+                                        , Guide.yticks(ticks=[1.0:0.1:1.7, 1.51:0.02:1.56])
+                                        )
+                    , Guide.xlabel("time(s)")
+                    , Guide.ylabel("Vout(V)")
+                    , Theme(key_title_font_size=30pt, key_label_font_size=30pt, grid_line_width=1pt, line_width=1pt
+                        , major_label_font_size=30pt, minor_label_font_size=30pt, default_color=colorant"black")
+                )
+p_DVar_scope_VTIA = plot(d_DVar_scope, xgroup="Device", x="time", y="VTIA"
+                    , Geom.subplot_grid(Geom.line
+                                        , free_x_axis=true
+                                        # , Guide.yticks(ticks=[0.86:0.02:0.94, 0.93:0.002:0.938])
+                                        )
+                    , Guide.xlabel("time(s)")
+                    , Guide.ylabel("Vout(V)")
+                    , Theme(key_title_font_size=30pt, key_label_font_size=30pt, grid_line_width=1pt, line_width=1pt
+                        , major_label_font_size=30pt, minor_label_font_size=30pt, default_color=colorant"black")
+                )
 
 
+d_DVar_Dev = vcat(DataFrame(DeV = vDeltapH1_2, VG = dnwA1_2B[:Vg_1_1_], Device="nw1-2"), DataFrame(DeV=vDeltapH, VG=dnw_phA[:Vg_1_1_], Device="nw2-1"))
+p_DVar_Dev = plot(d_DVar_Dev, xgroup="Device", x="VG", y="DeV"
+                    , Geom.subplot_grid(Geom.line
+                                        , free_x_axis=true
+                                        # , Guide.yticks(ticks=[1.0:0.2:1.7])
+                                        )
+                    , Guide.xlabel("VG(V)")
+                    , Guide.ylabel("△V")
+                    , Theme(key_title_font_size=30pt, key_label_font_size=30pt, grid_line_width=3pt, line_width=3pt
+                        , major_label_font_size=30pt, minor_label_font_size=30pt, default_color=colorant"black")
+                    )
+
+draw(PNG("Fig/March/DeviceVar_IdVg.png"  , 18cm, 20cm), d_DVar_IdVg)
+draw(PNG("Fig/March/DeviceVar_gmId.png"  , 25cm, 20cm), d_DVar_gmId)
+draw(PNG("Fig/March/DeviceVar_scope.png" , 60cm, 30cm), p_DVar_scope)
+draw(PNG("Fig/March/DeviceVar_Dev.png" , 30cm, 15cm), p_DVar_Dev)
 
 
+# 0312
+
+dnw_0312_nbg_pH7 = readtable("./data/0312/nw2-8and6_nbg.txt", separator='\t', header=true)
+# dnw_0312_nbg_pH7[:x2_8] = dnw_0312_nbg_pH7[:x2_8] * (-1)
+# dnw_0312_nbg_pH7[:x2_6] = dnw_0312_nbg_pH7[:x2_6] * (-1)
+dnw_0312_nbg_pH7[:gm_2_8] = diff(dnw_0312_nbg_pH7[:Voltage], dnw_0312_nbg_pH7[:x2_8])
+dnw_0312_nbg_pH7[:gm_2_6] = diff(dnw_0312_nbg_pH7[:Voltage], dnw_0312_nbg_pH7[:x2_6])
+dnw_0312_nbg_pH6 = readtable("./data/0312/nw2-8and6_nbg_pH6.txt", separator='\t', header=true)
+# dnw_0312_nbg_pH6[:x2_8] = dnw_0312_nbg_pH6[:x2_8] * (-1)
+# dnw_0312_nbg_pH6[:x2_6] = dnw_0312_nbg_pH6[:x2_6] * (-1)
+dnw_0312_nbg_pH6[:gm_2_8] = diff(dnw_0312_nbg_pH6[:Voltage], dnw_0312_nbg_pH6[:x2_8])
+dnw_0312_nbg_pH6[:gm_2_6] = diff(dnw_0312_nbg_pH6[:Voltage], dnw_0312_nbg_pH6[:x2_6])
+
+p_DVar_IdVg_nbg_pH7 = plot(layer(dnw_0312_nbg_pH7, x=:Voltage, y=:x2_8, Geom.line)
+                         , layer(dnw_0312_nbg_pH7, x=:Voltage, y=:x2_6, Geom.line)
+                        #  , Scale.x_log10
+                         , Scale.y_log10
+                            )
+
+p_DVar_IdVg_nbg_2_8 = plot(layer(dnw_0312_nbg_pH7, x=:Voltage, y=:x2_8, Geom.line, Theme(default_color=colorant"black", line_width=1pt))
+                , layer(dnw_0312_nbg_pH6, x=:Voltage, y=:x2_8, Geom.line, Theme(default_color=colorant"darkgray", line_width=1pt))
+                , Scale.y_log10
+                , Guide.xlabel("VG(V)")
+                , Guide.ylabel("ID(A)")
+                , Theme(key_title_font_size=30pt, key_label_font_size=30pt, grid_line_width=3pt
+                    , major_label_font_size=30pt, minor_label_font_size=30pt, line_width=5pt)
+                )
+
+p_DVar_IdVg_nbg_2_8_DI = plot(x=dnw_0312_nbg_pH7[:Voltage], y=abs(dnw_0312_nbg_pH6[:x2_8] - dnw_0312_nbg_pH7[:x2_8]), Geom.line
+                , Scale.y_log10
+                # , Scale.x_log10
+                , Guide.xlabel("VG(V)")
+                , Guide.ylabel("△I")
+                , Theme(key_title_font_size=30pt, key_label_font_size=30pt, grid_line_width=3pt
+                    , major_label_font_size=30pt, minor_label_font_size=30pt, line_width=1pt)
+                )
+p_DVar_IdVg_nbg_2_6_DI = plot(x=dnw_0312_nbg_pH7[:Voltage], y=abs(dnw_0312_nbg_pH6[:x2_6] - dnw_0312_nbg_pH7[:x2_6]), Geom.line
+                , Scale.y_log10
+                # , Scale.x_log10
+                , Guide.xlabel("VG(V)")
+                , Guide.ylabel("△I")
+                , Theme(key_title_font_size=30pt, key_label_font_size=30pt, grid_line_width=3pt
+                    , major_label_font_size=30pt, minor_label_font_size=30pt, line_width=1pt)
+                )
+
+p_DVar_0312_x2_8_gmId = plot(layer(dnw_0312_nbg_pH7, x=:x2_8, y=:gm_2_8, Geom.line, Theme(default_color=colorant"black", line_width=1pt))
+                , layer(dnw_0312_nbg_pH6, x=:x2_8, y=:gm_2_8, Geom.line, Theme(default_color=colorant"darkgray", line_width=1pt))
+                , Coord.cartesian(xmax=-5.5)
+                , Guide.yticks(ticks=[-7:1:-4, log10(2e-6)])
+                , Guide.xticks(ticks=[-7, log10(5e-6), log10(3.4e-7), log10(9e-7)])
+                , Scale.y_log10(labels=x -> handleTicks(x, log10(2e-6)))
+                , Scale.x_log10(labels=x -> handleTicks(x, log10(5e-6), log10(3.4e-7), log10(9e-7)))
+                , Guide.xlabel("ID(A)")
+                , Guide.ylabel("gm")
+                , Guide.manual_color_key("", ["nw1-2", "nw2-1"], [colorant"black", colorant"darkgray"])
+                , Theme(key_title_font_size=30pt, key_label_font_size=30pt, grid_line_width=3pt
+                    , major_label_font_size=30pt, minor_label_font_size=30pt, line_width=5pt)
+                )
 
 
+vDeltapH_0312_nbg_2_8 = (dnw_0312_nbg_pH6[:x2_8] - dnw_0312_nbg_pH7[:x2_8])./  dnw_0312_nbg_pH7[:gm_2_8]
+vDeltapH_0312_nbg_2_6 = (dnw_0312_nbg_pH6[:x2_6] - dnw_0312_nbg_pH7[:x2_6])./  dnw_0312_nbg_pH7[:gm_2_6]
 
+d_DVar_Dev = vcat(DataFrame(DeV = vDeltapH_0312_nbg_2_8, gm = dnw_0312_nbg_pH7[:gm_2_8], VG = dnw_0312_nbg_pH7[:Voltage], Device="nw2-8"), DataFrame(DeV=vDeltapH_0312_nbg_2_6, gm = dnw_0312_nbg_pH7[:gm_2_6], VG=dnw_0312_nbg_pH7[:Voltage], Device="nw2-6"))
+p_DVar_Dev = plot(d_DVar_Dev, xgroup="Device", x="VG", y="DeV"
+                    , Geom.subplot_grid(Geom.line
+                                        , free_x_axis=true
+                                        # , Guide.yticks(ticks=[1.0:0.2:1.7])
+                                        # , Scale.x_log10
+                                        )
+                    , Guide.xlabel("VG(V)")
+                    , Guide.ylabel("△V")
+                    # , Theme(key_title_font_size=30pt, key_label_font_size=30pt, grid_line_width=3pt, line_width=3pt
+                    #     , major_label_font_size=30pt, minor_label_font_size=30pt, default_color=colorant"black")
+                    )
 
+dnw_0313 = readtable("./data/03/0313/nw2-6.txt", separator='\t', header=true)
+dnw_0313[:gm] = diff(dnw_0313[:VG], dnw_0313[:ID])
+pnw_0313 = plot(dnw_0313, x=:ID, y=:gm, Geom.line
+                , Scale.y_log10
+                , Guide.yticks(ticks=[-7:1:-4, log10(2e-6)])
+                , Guide.xticks(ticks=[-8:1:-4, log10(1.1e-6)])
+                , Scale.x_log10
+                )
 
-
+4 + 4
 #

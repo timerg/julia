@@ -42,7 +42,7 @@ pvg_Id = plot(
 #
 pId_vopi = plot(
               layer(dcvm_10_, x="Id_1_1_", y="vopi_4_1_", Geom.line, Theme(default_color=colorant"deepskyblue", line_width=3pt))
-            , layer(dcvm_100, x="Id_1_1_", y="vopi_4_1_", Geom.line, Theme(default_color=colorant"green", line_width=3pt))
+             layer(dcvm_100, x="Id_1_1_", y="vopi_4_1_", Geom.line, Theme(default_color=colorant"green", line_width=3pt))
             , Guide.ylabel("Vopi")
             , Guide.xlabel("ID")
             , Scale.x_log10

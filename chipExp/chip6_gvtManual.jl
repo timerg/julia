@@ -270,6 +270,7 @@ dnw_delay8s = readtable("./data/1024/nw3-10_vds=0.9_delya=8s.txt", header=true, 
 plot8 = Gadfly.plot(layer(dnw_delay8s[(dnw_delay8s[:Id_2_1_] .> 1e-7) & (dnw_delay8s[:Id_2_1_] .< 3e-6), :], x = "Vg_1_1_", y = "Id_2_1_", Geom.line, Geom.point)
                   , layer(input, x = "Vopo", y = "Id_cal", Geom.line, Geom.point, Theme(default_color=colorant"green"))
                   , layer(input, x = "Vopo", y = "Id", Geom.line, Geom.point, Theme(default_color=colorant"maroon"))
+                  , Scale.y_log10
                   , Guide.xlabel("Vg(V)")
                   , Guide.ylabel("Vg(V)")
                   , Guide.title("1024_GvtMeasure")

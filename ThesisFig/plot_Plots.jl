@@ -151,6 +151,27 @@ savefig(pIdVg, "pIdVg.svg")
 ############################################################
 
 # gbs_Ib For element disparity
+pDisparity_IdVG = plot([dIdgbs_075v[:Vsurface_3_2_][2:21] dIdgbs_075v[:Vsurface_3_2_][2:21]
+                ]
+                , [dDisparity[:NwA_Id][2:21] dDisparity[:NwB_Id][2:21]]
+                # , xscale = :log10
+                , yscale = :log10
+                , xlabel = "VG(V)"
+                , ylabel = "ID(A)"
+                # , ticks = [-6:-5]
+                # , xlims = ((10.0^-7.5), (10.0^-3.5))
+                , ylims = ((10.0^-6.8), (10.0^-4))
+                , linestyle = :solid
+                , linecolor = colorkey
+                , linewidth = 2
+                , label = ["Nw.2-7" "Nw.2-8"]
+                , marker = ([:hex :d], 10, colorkey)
+                # , markersize = 100
+                , markerstrokewidth = 0
+                , legend = :top
+                , size = (600, 300)
+                , fmt = :svg
+            )
 pDisparity = plot([dDisparity[:NwA_Id][2:21] dDisparity[:NwB_Id][2:21]
                  ]
                 , [dDisparity[:NwA_diff][2:21] dDisparity[:NwB_diff][2:21]
@@ -174,3 +195,4 @@ pDisparity = plot([dDisparity[:NwA_Id][2:21] dDisparity[:NwB_Id][2:21]
                 , fmt = :svg
             )
 savefig(pDisparity, "pDisparity.svg")
+savefig(pDisparity_IdVG, "pDisparity_IdVG.svg")

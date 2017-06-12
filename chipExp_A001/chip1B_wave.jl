@@ -110,6 +110,7 @@ draw(PNG("Fig/Chip1/wave_1B_10fold_Vopa.png", 24cm, 20cm), plot_LP_vopa)
 d_square1 = readtable("./data/1220_osilloscope/square_1.txt", separator='\t', header=true)
 p_square1 = plot(layer(d_square1, x="x_axis", y=:"x1", Geom.line, Theme(default_color=colorant"green"))
                 ,layer(d_square1, x="x_axis", y=:"x2", Geom.line)
+                , Guide.yticks(ticks=[-1:1:3, 2.7])
                 , Guide.xlabel("time(s)")
                 , Guide.ylabel("Vopa(V)")
                 , Guide.title(string("1st Stage Output:", maximum(d_square1[:x1]), "v -", minimum(d_square1[:x1]), "v | ", "2nd Stage Output:", maximum(d_square1[:x2]), "v - ", minimum(d_square1[:x2]), "v"))
@@ -118,17 +119,27 @@ p_square1 = plot(layer(d_square1, x="x_axis", y=:"x1", Geom.line, Theme(default_
                     , major_label_font_size=18pt, minor_label_font_size=18pt, line_width=1pt)
                 )
 d_square2 = readtable("./data/1220_osilloscope/square_2.txt", separator='\t', header=true)
-p_square2 = plot(layer(d_square2, x="x_axis", y=:"x1", Geom.line, Theme(default_color=colorant"green"))
-                ,layer(d_square2, x="x_axis", y=:"x2", Geom.line)
-                , Guide.yticks(ticks=collect(0:0.1:2.5))
+d_square2[:x_axis] = d_square2[:x_axis] * 10
+p_square2 = plot(layer(d_square2, x="x_axis", y=:"x1", Geom.line, Theme(default_color=colorant"silver", line_width=5pt))
+                ,layer(d_square2, x="x_axis", y=:"x2", Geom.line, Theme(default_color=colorant"black", line_width=5pt))
+                , Guide.yticks(ticks=collect(0:0.2:2.5))
                 , Guide.xlabel("time(s)")
-                , Guide.ylabel("Vout(V)")
-                , Guide.title(string("1st Stage Output:", maximum(d_square2[:x1]), "v - ", minimum(d_square2[:x1]), "v | ", "2nd Stage Output:", maximum(d_square2[:x2]), "v - ", minimum(d_square2[:x2]), "v"))
-                , Guide.manual_color_key("Line", ["1st Stage Output", "2nd Stage Output"], ["green", "deepskyblue"])
-                , Theme(background_color=colorant"white", key_title_font_size=18pt, key_label_font_size=18pt
-                    , major_label_font_size=18pt, minor_label_font_size=18pt, line_width=1pt)
+                , Guide.ylabel("")
+                # , Guide.title(string("1st Stage Output:", maximum(d_square2[:x1]), "v - ", minimum(d_square2[:x1]), "v | ", "2nd Stage Output:", maximum(d_square2[:x2]), "v - ", minimum(d_square2[:x2]), "v"))
+                , Guide.manual_color_key(" ", ["Vin(V)", "Vout(V)"], ["silver", "black"])
+                , Theme(key_title_font_size=30pt, key_label_font_size=30pt, grid_line_width=3pt
+                    , major_label_font_size=30pt, minor_label_font_size=30pt)
                 )
-draw(PNG("Fig/Chip1/100foldProved_trianglewave.png", 28cm, 20cm), p_square2)
+# d_sin_10x = readtable("./data/1220_osilloscope/", separator='\t', header=true)
+# p_sin_10x = plot(layer(d_sin_10x, x="x_axis", y=:"x1", Geom.line, Theme(default_color=colorant"green"))
+#                 ,layer(d_sin_10x, x="x_axis", y=:"x2", Geom.line)
+#                 , Guide.xlabel("time(s)")
+#                 , Guide.ylabel("Vopa(V)")
+#                 , Guide.manual_color_key("Line", ["1st Stage Output", "2nd Stage Output"], ["green", "deepskyblue"])
+#                 # , Theme(background_color=colorant"white", key_title_font_size=18pt, key_label_font_size=18pt
+#                 #     , major_label_font_size=18pt, minor_label_font_size=18pt, line_width=1pt)
+#                 )
+draw(PNG("Fig/March/SecondStageAmp100x.png", 30cm, 15cm), p_square2)
 
 
 
@@ -138,14 +149,14 @@ d_OPgainC1 = readtable("./data/1226/OPGainofChip1.txt", separator='\t', header=t
 d_OPgainC4 = readtable("./data/1226/OPGainofChip4.txt", separator='\t', header=true)
 d_OPgainC4[:x_axis] = d_OPgainC4[:x_axis] + 0.18
 p_OPgain = plot(
-                          layer(d_OPgainC4[250:750, :], x=:x_axis, y=:x1, Geom.line, Theme(default_color=colorant"yellowgreen"))
-                        , layer(d_OPgainC1, x=:x_axis, y=:x2, Geom.line, Theme(default_color=colorant"darkblue"))
-                        , Guide.title("Input = 1mV, 1Hz \n The Gain is less than 2k(66dB)")
+                          layer(d_OPgainC4[250:750, :], x=:x_axis, y=:x1, Geom.line, Theme(default_color=colorant"green"))
+                        # , layer(d_OPgainC1, x=:x_axis, y=:x2, Geom.line, Theme(default_color=colorant"darkblue"))
+                        # , Guide.title("Input = 1mV, 1Hz \n The Gain is less than 2k(66dB)")
                         , Guide.xlabel("time(s)")
                         , Guide.ylabel("Vout(V)")
-                        , Guide.manual_color_key("", ["Chip1B", "Chip4B"], ["darkblue", "yellowgreen"])
-                        , Theme(background_color=colorant"white", key_title_font_size=18pt, key_label_font_size=18pt
-                            , major_label_font_size=18pt, minor_label_font_size=18pt, line_width=1pt)
+                        # , Guide.manual_color_key("", ["Chip1B", "Chip4B"], ["darkblue", "yellowgreen"])
+                        , Theme(key_title_font_size=30pt, key_label_font_size=30pt, grid_line_width=3pt
+                            , major_label_font_size=30pt, minor_label_font_size=30pt, line_width=1pt)
                     )
 draw(PNG("Fig/Chip1/Problem_OPGain.png", 28cm, 20cm), p_OPgain)
 # http://mirlab.org/jang/books/audioSignalProcessing/filterApplication_chinese.asp?title=11-1%20Filter%20Applications%20(%C2o%AAi%BE%B9%C0%B3%A5%CE)

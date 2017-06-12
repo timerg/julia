@@ -4,3 +4,8 @@ data*
 *.png
 *.txt
 *.svg
+Fig
+.DS_Store
+*.xlsx
+*.pdf
+*.csv

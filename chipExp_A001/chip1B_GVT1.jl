@@ -93,8 +93,8 @@ pgmId_measdata_1 = plot(layer(dgvt_nwd0_1[(dgvt_nwd0_1[:gm] .> 0)&(dgvt_nwd0_1[:
 #
 dnw = readtable("./data/0101/nw2-3.txt", separator='\t', header=true)
 dnw[:Is_3_1_] = dnw[:Is_3_1_] * (-1)
-dgvt_manu_10x = readtable("./data/0101/gvt_manual Chip1B_10x.txt", separator='\t', header=true)
-dgvt_manu_1x = readtable("./data/0101/gvt_manual Chip1B_1x.txt", separator='\t', header=true)
+dgvt_manu_10x = readtable("./data/0101/gvt_manual_Chip1B_10x.txt", separator='\t', header=true)
+dgvt_manu_1x = readtable("./data/0101/gvt_manual_Chip1B_1x.txt", separator='\t', header=true)
 dgvt_manu = vcat(dgvt_manu_10x, dgvt_manu_1x)
 dgvt_manu[:gm] = diff(dgvt_manu[:Vopo_3_1_], dgvt_manu[:Inwd_4_1_])
 dgvt_manu[:gm_cal] = diff(dgvt_manu[:Vopo_3_1_], dgvt_manu[:Ibias_cal])
@@ -106,30 +106,90 @@ dnw_manu[:Is_3_1_] = dnw_manu[:Is_3_1_] * (-1)
 dnw_manu[:gm] = diff(dnw_manu[:Vg_1_1_], dnw_manu[:Is_3_1_])
 
 dgvt_manu[:Ileak] = (dgvt_manu[:Vopi_2_1_] - 0.802) ./ 100000
+# dgvt_manu[:Ibias_comp] = dgvt_manu[:Ibias_cal] + dgvt_manu[:Ileak]
+dgvt_manu[:Ibias_comp] = dgvt_manu[:Ibias_cal] + (0.817 - 0.802) / 100000
+dgvt_manu[:gm_comp] = diff(dgvt_manu[:Vopo_3_1_], dgvt_manu[:Ibias_comp])
 
-pnw_gmId_manu = plot(dnw_manu[8:21, :], x=:Is_3_1_, y=:gm, Geom.line
+pnw_gmId_manu = plot(layer(dnw_manu[8:21, :], x=:Is_3_1_, y=:gm, Geom.line)
+                        , layer(dgvt_manu, x=:Inwd_4_1_, y=:gm, Geom.line)
+                        , Guide.xlabel("ID(A)")
+                        , Guide.ylabel("gm")
                         , Scale.y_log10
+                        # , Guide.yticks(ticks=[log10(5e-6)])
                         , Scale.x_log10
+                        , Theme(default_color=colorant"black", line_width=1pt, grid_line_width=3pt, key_title_font_size=30pt, key_label_font_size=30pt
+                            , major_label_font_size=30pt, minor_label_font_size=30pt)
                         )
 
 pgvt_IdVg_manu = plot(
-              layer(dgvt_manu[1:50, :], x=:Vopo_3_1_, y=:Inwd_4_1_, Geom.line, Theme(default_color=colorant"#72A2C0", line_width=3pt))
-            , layer(dgvt_manu[1:50, :], x=:Vopo_3_1_, y=:Ibias_cal, Geom.line, Theme(default_color=colorant"#00743F", line_width=3pt))
+              layer(dgvt_manu, x=:Vopo_3_1_, y=:Inwd_4_1_, Geom.line, Theme(default_color=colorant"black", line_width=5pt))
+            , layer(dgvt_manu, x=:Vopo_3_1_, y=:Ibias_cal, Geom.line, Theme(default_color=colorant"silver", line_width=5pt))
             # , layer(dnw_manu[8:21, :], x=:Vg_1_1_, y=:Is_3_1_, Geom.line, Theme(default_color=colorant"darkkhaki"))
-            , layer(dnw[8:21, :], x=:Vg_1_1_, y=:Is_3_1_, Geom.line, Theme(default_color=colorant"maroon", line_width=3pt))
+            # , layer(dnw[8:21, :], x=:Vg_1_1_, y=:Is_3_1_, Geom.line, Theme(default_color=colorant"maroon", line_width=3pt))
             , Scale.y_log10
-            , Guide.xlabel("Vg(V)")
+            , Guide.xlabel("VG(V)")
             , Guide.ylabel("I(A)")
-            , Guide.title("0101/dgvt_manu_10x and 1x")
-            , Guide.xticks(ticks = [1:1:3])
-            , Guide.manual_color_key("Line", ["Vopo_ID", "Vopo_Ibias", "NwSweep"], ["#72A2C0", "#00743F", "maroon"])
-            , Theme(background_color=colorant"white", key_title_font_size=18pt, key_label_font_size=18pt
-                , major_label_font_size=18pt, minor_label_font_size=18pt)
+            # , Guide.title("0101/dgvt_manu_10x and 1x")
+            , Guide.xticks(ticks = [1:0.2:2, 3])
+            , Guide.manual_color_key("", ["ID", "Ibias"], ["black", "silver"])
+            , Theme(grid_line_width=3pt, key_title_font_size=30pt, key_label_font_size=30pt
+                , major_label_font_size=30pt, minor_label_font_size=30pt)
             )
 # x = plot(x = dgvt_manu[:Vopo_3_1_],y = (dgvt_manu[:Inwd_4_1_] - dgvt_manu[:Ibias_cal]), Geom.line, Geom.point)
 # draw(PNG("Fig/Chip1/GVT_0103Manual.png", 24cm, 15cm), pgvt_IdVg_manu)
-pgvt_Ileak = plot(dgvt_manu[7:50, :], x=:Vopo_3_1_, y=:Ileak, Geom.line)
+pgvt_Vopi = plot( layer(dgvt_manu, x=:Vopo_3_1_, y=:Vopi_2_1_, Geom.line, Geom.point, Theme(default_color=colorant"black", line_width=5pt))
+                # , layer(x=dgvt_manu[:Vopo_3_1_][7:35], y= (0.802 * ones(length(dgvt_manu[:Vopo_3_1_])))[7:35], Geom.line)
+                , Guide.xlabel("VG(V)")
+                , Guide.ylabel("V_TIA(V)")
+                # , Guide.title("0101/dgvt_manu_10x and 1x")
+                , Guide.yticks(ticks = [0.8 : 0.01: 0.83, 0.81:0.002:0.82, 0.802])
+                , Theme(grid_line_width=3pt, key_title_font_size=30pt, key_label_font_size=30pt
+                    , major_label_font_size=30pt, minor_label_font_size=30pt)
+                )
 
+pgvt_Vopi_gm = plot( layer(dgvt_manu, x=:gm, y=:Vopi_2_1_, Geom.line, Geom.point, Theme(default_color=colorant"black", line_width=5pt))
+                # , layer(x=dgvt_manu[:Vopo_3_1_][7:35], y= (0.802 * ones(length(dgvt_manu[:Vopo_3_1_])))[7:35], Geom.line)
+                # , Guide.xlabel("VG(V)")
+                , Coord.cartesian(xmax=-4.5)
+                , Guide.ylabel("V_TIA(V)")
+                , Scale.x_log10
+                # , Guide.title("0101/dgvt_manu_10x and 1x")
+                , Guide.yticks(ticks = [0.8 : 0.01: 0.83, 0.81:0.002:0.82, 0.802])
+                , Theme(grid_line_width=3pt, key_title_font_size=30pt, key_label_font_size=30pt
+                    , major_label_font_size=30pt, minor_label_font_size=30pt)
+                )
+
+pgvt_IdVg_manu_compen = plot(layer(dgvt_manu, x=:Vopo_3_1_, y=:Inwd_4_1_, Geom.line, Theme(default_color=colorant"black", line_width=5pt))
+                            , layer(dgvt_manu, x=:Vopo_3_1_, y=:Ibias_comp, Geom.line, Theme(default_color=colorant"silver", line_width=5pt))
+                            , Scale.y_log10
+                            , Guide.xlabel("VG(V)")
+                            , Guide.ylabel("I(A)")
+                            # , Guide.title("0101/dgvt_manu_10x and 1x")
+                            , Guide.xticks(ticks = [1:0.2:2, 3])
+                            , Guide.manual_color_key("", ["ID", "Ibias"], ["black", "silver"])
+                            , Theme(grid_line_width=3pt, key_title_font_size=30pt, key_label_font_size=30pt
+                                , major_label_font_size=30pt, minor_label_font_size=30pt)
+                                )
+pgvt_gmId_manu_compen = plot(layer(dgvt_manu, x=:Inwd_4_1_, y=:gm, Geom.line, Theme(default_color=colorant"black", line_width=5pt))
+                            , layer(dgvt_manu, x=:Ibias_comp, y=:gm_comp, Geom.line, Theme(default_color=colorant"silver", line_width=5pt))
+                            , Scale.y_log10
+                            , Scale.x_log10
+                            , Guide.xlabel("ID(A)")
+                            , Guide.ylabel("gm")
+                            # , Guide.title("0101/dgvt_manu_10x and 1x")
+                            # , Guide.xticks(ticks = [1:0.2:2, 3])
+                            , Guide.manual_color_key("", ["ID", "Ibias"], ["black", "silver"])
+                            , Theme(grid_line_width=3pt, key_title_font_size=30pt, key_label_font_size=30pt
+                                , major_label_font_size=30pt, minor_label_font_size=30pt)
+                                )
+
+pgvt_Ileak = plot(dgvt_manu, x=:Vopo_3_1_, y=:Ileak, Geom.line)
+
+
+draw(PNG("Fig/gvt/gvt_0101Manual_IdVg.png", 28cm, 20cm), pgvt_IdVg_manu)
+draw(PNG("Fig/gvt/gvt_0101Manual_VopiProblem.png", 24cm, 20cm), pgvt_Vopi)
+draw(PNG("Fig/gvt/gvt_0101Manual_gmId.png", 24cm, 20cm), pnw_gmId_manu)
+draw(PNG("Fig/gvt/gvt_0101Manual_IdVg_comp.png", 24cm, 20cm), pgvt_IdVg_manu_compen)
 #
 pgvt_gmId_manu = plot(
               layer(dgvt_manu, y=:gm, x=:Inwd_4_1_, Geom.point, Theme(default_color=colorant"deepskyblue"))
@@ -147,7 +207,7 @@ pgvt_gmId_manu = plot(
 
 
 
-dgvt_manu_10x_2 = readtable("./data/0101/gvt_manual Chip1B_10x_2.txt", separator='\t', header=true)
+dgvt_manu_10x_2 = readtable("./data/0101/gvt_manual_Chip1B_10x_2.txt", separator='\t', header=true)
 dgvt_manu_10x_2[:gm] = diff(dgvt_manu_10x_2[:Vopo_3_1_], dgvt_manu_10x_2[:Inwd_4_1_])
 dgvt_manu_10x_2[:gm_cal] = diff(dgvt_manu_10x_2[:Vopo_3_1_], dgvt_manu_10x_2[:Ibias_cal])
 dnw_manu_10x_2 = readtable("./data/0103/nw2-3_2.txt", separator='\t', header=true)
